@@ -1,0 +1,34 @@
+meta:
+  extract_upstream: False
+
+tasks:
+  - source: scripts/load_data.py
+    product:
+      nb: products/load_data.ipynb
+      data: data/loaded_data.csv
+
+  - source: scripts/filter_data.py
+    product:
+      nb: products/filter_data.ipynb
+      data: data/filtered_data.csv
+    upstream: load_data
+
+  - source: scripts/plot_line_chart.py
+    product:
+      nb: products/plot_line_chart.ipynb
+      img: data/line_chart.png
+    upstream: filter_data
+
+  - source: scripts/plot_map_with_slider.py
+    product:
+      nb: products/plot_map_with_slider.ipynb
+      html: data/map.html
+    upstream: filter_data
+
+  - source: scripts/view.py
+    product:
+      nb: products/view.ipynb
+    upstream:
+      - plot_line_chart
+      - plot_map_with_slider
+
